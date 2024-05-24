@@ -17,6 +17,8 @@ Examples
 """
 
 import argparse
+from pprint import pprint
+import requests
 import sys
 from typing import List
 
@@ -33,3 +35,22 @@ class Command:
     def execute(self, options: argparse.Namespace) -> None:
         """ Execute the command. """
         pass
+
+class Get(Command):
+    """ The get command. """
+    @classmethod
+    def arguments(cls, getSubparser: argparse.ArgumentParser) -> None:
+        getSubparser.add_argument(
+            "url",
+            type=str,
+            help="The URL to fetch."
+        )
+
+        getSubparser.set_defaults(command=cls)
+
+    def __init__(self) -> None:
+        super().__init__()
+    
+    def execute(self, options: argparse.Namespace) -> None:
+        response = requests.get(options.url)
+        pprint(response.text)

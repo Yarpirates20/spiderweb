@@ -3,11 +3,9 @@ spiderweb: Web app attack tree
 ==================================================================
 
 TODO: Modify the whole file as necessary.
+TODO: Add command line option to store flag format (beginning, end, etc.).
+TODO: Create a Guided UI class that will guide the user through basic steps of attacking web apps. 
 
-This is a "long description" file for the package that you are creating.
-If you submit your package to PyPi, this text will be presented on the `public page <http://pypi.python.org/pypi/python_package_boilerplate>`_ of your package.
-
-Note: This README has to be written using `reStructured Text <http://docutils.sourceforge.net/rst.html>`_, otherwise PyPi won't format it properly.
 
 Installation
 ------------
