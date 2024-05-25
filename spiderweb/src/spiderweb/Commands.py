@@ -19,6 +19,7 @@ Examples
 import argparse
 from pprint import pprint
 import requests
+from scraping import getHTML
 import sys
 from typing import List
 
@@ -52,5 +53,5 @@ class Get(Command):
         super().__init__()
     
     def execute(self, options: argparse.Namespace) -> None:
-        response = requests.get(options.url)
-        pprint(response.text)
+        page = getHTML(options.url)
+        pprint(page.prettify())
