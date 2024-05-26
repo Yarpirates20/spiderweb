@@ -15,6 +15,10 @@ Installation
 Usage
 -----
 
-./spiderweb.py -h  -->  Display help message.
-./spiderweb.py get <URL> -->  Perform a GET request on the specified URL.
-./spiderweb.py get <URL> -c --> Return comments-only from requested URL HTML source.
+Example usage::
+    
+        ./spiderweb.py -h
+    
+        ./spiderweb.py get <URL> 
+    
+        ./spiderweb.py get <URL> -c
