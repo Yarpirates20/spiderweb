@@ -1,9 +1,38 @@
-import bs4
+"""
+DESCRIPTION
+===========
+
+This module contains web scraping and network helper functions. 
+
+MODULE CONTENTS
+===============
+
+getHTML(url, commentsOnly=False)
+
+
+EXAMPLES
+========
+
+#TODO: write examples
+
+"""
+
+from bs4 import BeautifulSoup as BS
+from bs4 import Comment
 import requests
 
-def getHTML(url: str) -> bs4.BeautifulSoup:
+def getHTML(url: str, commentsOnly: bool = False) -> BS:
+    """ Parses HTML of web page with option of only returning comments """
     res = requests.get(url)
     res.raise_for_status()
-    page = bs4.BeautifulSoup(res.content , 'html.parser')
+    page = BS(res.content , 'html.parser')
 
-    return page
+    if commentsOnly:
+        comments = page.find_all(string=lambda text: isinstance(text, Comment))
+        return comments
+    else:
+        return page.prettify()
+
+
+# if __name__ == '__main__':
+#     main()

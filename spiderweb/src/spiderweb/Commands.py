@@ -23,6 +23,7 @@ from scraping import getHTML
 import sys
 from typing import List
 
+#------------------------------------------
 class Command:
     """ The base class for all commands. """
     @classmethod
@@ -37,6 +38,7 @@ class Command:
         """ Execute the command. """
         pass
 
+#-----------------------------------------------------------------
 class Get(Command):
     """ The get command. """
     @classmethod
@@ -47,11 +49,22 @@ class Get(Command):
             help="The URL to fetch."
         )
 
+        getSubparser.add_argument(
+            "-c",
+            "--comments",
+            action="store_true",
+            default=False,
+            help="Returns comments only"
+        )
+
         getSubparser.set_defaults(command=cls)
 
     def __init__(self) -> None:
         super().__init__()
     
     def execute(self, options: argparse.Namespace) -> None:
-        page = getHTML(options.url)
-        pprint(page.prettify())
+        page = getHTML(options.url, options.comments)
+        pprint(page)
+
+
+#-----------------------------------------------------------------
