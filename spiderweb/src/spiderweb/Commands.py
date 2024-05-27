@@ -57,13 +57,21 @@ class Get(Command):
             help="Returns comments only"
         )
 
+        getSubparser.add_argument(
+            "-r",
+            "--robots",
+            action="store_true",
+            default=False,
+            help="Get robots.txt for URL"
+        )
+
         getSubparser.set_defaults(command=cls)
 
     def __init__(self) -> None:
         super().__init__()
     
     def execute(self, options: argparse.Namespace) -> None:
-        page = getHTML(options.url, options.comments)
+        page = getHTML(options.url, options.comments, options.robots)
         pprint(page)
 
 

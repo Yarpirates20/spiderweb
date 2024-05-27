@@ -161,3 +161,5 @@ cython_debug/
 
 ./spiderweb/src/spiderweb/scratch.py
 spiderweb/src/spiderweb/scratch.py
+spiderweb/src/spiderweb/all.txt:Zone.Identifier
+spiderweb/src/spiderweb/all.txt
