@@ -24,3 +24,5 @@ Example usage::
         ./spiderweb.py get <URL> -c
 
         ./spiderweb.py get <URL> -r
+
+        ./spiderweb.py guide

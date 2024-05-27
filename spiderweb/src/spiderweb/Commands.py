@@ -17,6 +17,7 @@ Examples
 """
 
 import argparse
+from guidedAttackTree import listSteps
 from pprint import pprint
 import requests
 from scraping import getHTML
@@ -76,3 +77,22 @@ class Get(Command):
 
 
 #-----------------------------------------------------------------
+class Guide(Command):
+    """Step-by-step walkthrough for basic web app attacks. """
+    @classmethod
+    def arguments(cls, guideSubparser: argparse.ArgumentParser) -> None:
+        guideSubparser.add_argument(
+            "-i",
+            "--interactive",
+            action="store_true",
+            default=False,
+            help="Interactive mode"
+        )
+
+        guideSubparser.set_defaults(command=cls)
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    def execute(self, options: argparse.Namespace) -> None:
+        listSteps()

@@ -2,7 +2,7 @@
 
 import argparse
 from typing import List
-from Commands import Command, Get
+from Commands import Command, Get, Guide
 import sys
 
 def getOptions(argv: List[str] = sys.argv[1:]) -> argparse.Namespace:
@@ -11,15 +11,21 @@ def getOptions(argv: List[str] = sys.argv[1:]) -> argparse.Namespace:
     subparsers = parser.add_subparsers()
 
     getSubparser = subparsers.add_parser("get")
+    getSubparser.set_defaults(func=Get)
     Get.arguments(getSubparser)
+
+
+    guideSubparser = subparsers.add_parser("guide")
+    guideSubparser.set_defaults(func=Guide)
+    Guide.arguments(guideSubparser)
 
     return parser.parse_args(argv)
 
 def main() -> None:
     """ The main entry point for the spiderweb CLI. """
     options = getOptions(sys.argv[1:])
-    command = Get()
-    command.execute(options)
+    command = options.func
+    command.execute(command, options)
 
 
 
