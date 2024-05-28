@@ -23,6 +23,7 @@ import requests
 from scraping import getHTML
 import sys
 from typing import List
+from vulnTest import scan_xss
 
 #------------------------------------------
 class Command:
@@ -96,3 +97,31 @@ class Guide(Command):
 
     def execute(self, options: argparse.Namespace) -> None:
         listSteps()
+
+#-----------------------------------------------------------------
+class VulnTest(Command):
+    """ Web app vulnerability tests. """
+    @classmethod
+    def arguments(cls, vulnSubparser: argparse.ArgumentParser) -> None:
+        vulnSubparser.add_argument(
+            "url",
+            type=str,
+            help="URL to test"
+            )
+        
+        vulnSubparser.add_argument(
+            "-t",
+            "--type",
+            action="store",
+            choices=["xss", "sql"],
+            help="Vulnerability test type",
+            )
+
+        vulnSubparser.set_defaults(command=cls)
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    def execute(self, options: argparse.Namespace) -> None:
+        if options.type == "xss":
+            scan_xss(options.url)

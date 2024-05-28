@@ -2,7 +2,7 @@
 
 import argparse
 from typing import List
-from Commands import Command, Get, Guide
+from Commands import Command, Get, Guide, VulnTest
 import sys
 
 def getOptions(argv: List[str] = sys.argv[1:]) -> argparse.Namespace:
@@ -18,6 +18,10 @@ def getOptions(argv: List[str] = sys.argv[1:]) -> argparse.Namespace:
     guideSubparser = subparsers.add_parser("guide")
     guideSubparser.set_defaults(func=Guide)
     Guide.arguments(guideSubparser)
+
+    vulnSubparser = subparsers.add_parser("vuln")
+    vulnSubparser.set_defaults(func=VulnTest)
+    VulnTest.arguments(vulnSubparser)
 
     return parser.parse_args(argv)
 
