@@ -26,3 +26,5 @@ Example usage::
         ./spiderweb.py get <URL> -r
 
         ./spiderweb.py guide
+
+        ./spiderweb.py vuln <URL> -t xss
