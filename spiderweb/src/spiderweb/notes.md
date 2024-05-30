@@ -1,4 +1,0 @@
-- [ ] Store string to find flag/secret in argparser option
-- [ ] Add a way to store the flag/secret in the code
-- [ ] UI class to handle the UI
-- [ ] get command
