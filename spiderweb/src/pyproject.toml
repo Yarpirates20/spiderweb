@@ -14,3 +14,6 @@ dependencies = [
     "requests",
     "beautifulsoup4",
 ]
+
+[project.scripts]
+spiderweb = "spiderweb:main"
