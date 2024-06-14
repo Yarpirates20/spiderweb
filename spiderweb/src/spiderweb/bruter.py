@@ -1,4 +1,5 @@
 from queue import Queue
+import time
 import requests
 import threading
 import sys
@@ -40,20 +41,32 @@ def get_words(wordlist: str,
 
     return words
 
+# def get_session(thread_local: threading.local) -> threading.local:
+#     """ Gets session. """
+#     if not hasattr(thread_local, "session"):
+#         thread_local.session = requests.Session()
+#     return thread_local.session
+
+# def download(url: str) -> requests.Response:
+#     """ Downloads url. """
+#     session = get_session()
 
 def dir_bruter(
     words: Queue,
     target_url: str,
     agent:
-    str = "Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0"
+    str = "Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0",
 ) -> None:
     """ """
+    
+
     headers = {'User-Agent': agent}
     while not words.empty():
         url = f'{target_url}{words.get()}'
-
+        s = requests.Session()
+        
         try:
-            r = requests.get(url, headers=headers)
+            r = s.get(url, headers=headers)
         except requests.exceptions.ConnectionError:
             sys.stderr.write('x'); sys.stderr.flush()
             continue
@@ -71,9 +84,12 @@ if __name__ == '__main__':
     THREADS = 5
     EXTENSIONS = ['.php', '.bak', '.orig', '.inc']
     WORDLIST = "all.txt"
+    THREADING_LOCAL = threading.local()
 
     words = get_words(WORDLIST, None, EXTENSIONS)
 
+    start = time.time()
+    
     print('Press return to continue.')
     sys.stdin.readline()
     for _ in range(THREADS):
@@ -81,3 +97,5 @@ if __name__ == '__main__':
         t = threading.Thread(target=dir_bruter(words, TARGET, AGENT,))
         t.start()
     
+    end = time.time()
+    print(f'Execution time: {end - start:.2f} seconds')

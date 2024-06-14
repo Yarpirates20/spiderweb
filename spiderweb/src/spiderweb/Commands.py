@@ -17,7 +17,7 @@ Examples
 """
 
 import argparse
-from guidedAttackTree import listSteps
+from guidedAttackTree import GuidedCLI
 from pprint import pprint
 import requests
 from scraping import getHTML
@@ -96,7 +96,7 @@ class Guide(Command):
         super().__init__()
 
     def execute(self, options: argparse.Namespace) -> None:
-        listSteps()
+        GuidedCLI().cmdloop()
 
 #-----------------------------------------------------------------
 class VulnTest(Command):
