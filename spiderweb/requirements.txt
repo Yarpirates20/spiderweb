@@ -13,4 +13,4 @@ python-boilerplate-template==1.0.1
 requests==2.32.2
 soupsieve==2.5
 tomli==2.0.1
-urllib3==2.2.1
+urllib3==2.6.0
